@@ -58,6 +58,13 @@
 #define TEMP_SENSOR_AD595_OFFSET 0.0
 #define TEMP_SENSOR_AD595_GAIN   1.0
 
+//These defines help to calibrate the PT100 sensor. These values depend on your setup and must be identified for every unique setup.
+//The measured temperature is defined as "actualTemp = (measuredTemp * TEMP_SENSOR_PT100_LIN_GAIN)+ (measuredTemp^2 * TEMP_SENSOR_PT100_QUAD_GAIN) + TEMP_SENSOR_PT100_OFFSET"
+#define TEMP_SENSOR_PT100_OFFSET (13.016f)
+#define TEMP_SENSOR_PT100_LIN_GAIN  (2.3228e-01f)
+#define TEMP_SENSOR_PT100_QUAD_GAIN  (1.8478e-05f)
+
+
 //This is for controlling a fan to cool down the stepper drivers
 //it will turn on when any driver is enabled
 //and turn off after the set amount of seconds from last driver being disabled again
@@ -477,6 +484,9 @@ const unsigned int dropsegments=5; //everything with less than this number of st
 #endif
 #if TEMP_SENSOR_0 == -2
   #define HEATER_0_USES_MAX6675
+#endif
+#if TEMP_SENSOR_BED == -100
+  #define BED_USES_PT100
 #endif
 #if TEMP_SENSOR_0 == 0
   #undef HEATER_0_MINTEMP

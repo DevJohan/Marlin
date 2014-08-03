@@ -677,6 +677,11 @@ static float analog2tempBed(int raw) {
     return celsius;
   #elif defined BED_USES_AD595
     return ((raw * ((5.0 * 100.0) / 1024.0) / OVERSAMPLENR) * TEMP_SENSOR_AD595_GAIN) + TEMP_SENSOR_AD595_OFFSET;
+  #elif defined BED_USES_PT100
+	const float rawf = raw *(1.0/OVERSAMPLENR);
+	return TEMP_SENSOR_PT100_OFFSET +
+			TEMP_SENSOR_PT100_LIN_GAIN * rawf +
+			TEMP_SENSOR_PT100_QUAD_GAIN * rawf*rawf;
   #else
     return 0;
   #endif
